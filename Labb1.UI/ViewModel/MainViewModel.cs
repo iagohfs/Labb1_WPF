@@ -13,6 +13,8 @@ namespace Labb1.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        public ObservableCollection<Subject> Subjects { get; set; }
+
         private ILabb1DataService _labb1DataService;
         private Subject _selectedSubject;
 
@@ -33,13 +35,27 @@ namespace Labb1.UI.ViewModel
             }
         }
 
-        public ObservableCollection<Subject> Subjects { get; set; }
+        public string WeekDay(int dayNr)
+        {
+            switch (dayNr)
+            {
+                case 1:
+                    return "Monday";
+                case 2:
+                    return "Tuesday";
+                case 3:
+                    return "Wednesday";
+                case 4:
+                    return "Thursday";
+                case 5:
+                    return "Friday";
 
-        private Subject SelectedSubject;
+                default:
+                    return "Empty";
+            }
+        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public Subject MyProperty
+        public Subject SelectedSubject
         {
             get { return _selectedSubject; }
             set
@@ -47,11 +63,6 @@ namespace Labb1.UI.ViewModel
                 _selectedSubject = value;
                 OnPropertyChanged();
             }
-        }
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

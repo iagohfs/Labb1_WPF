@@ -5,16 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb1.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" FontSize="20">
+        Title="ITHS år 2" Height="450" Width="800" FontSize="20">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200">
 
             </ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <!--
         <ListView ItemsSource="{Binding Subjects}"
                   SelectedItem="{Binding SelectedSubject, Mode=TwoWay}"
                   DisplayMemberPath="SubjectName"/>
+        -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -23,13 +25,36 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Content="Week Number" Margin="10 10 10 0"/>
-            <ComboBox Grid.Row="1" Text="{Binding SelectedFriend.SubjectName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
-            <Label Grid.Row="2" Content="Date" Margin="10 0"/>
-            <ComboBox Grid.Row="6" Text="{Binding SelectedSubject.Date, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10,3,10,264"/>
+            <Label Content="Day" Margin="10 0"/>
+            <ComboBox Grid.Row="2" ItemsSource="{Binding Subjects}"
+                  SelectedItem="{Binding SelectedSubject, Mode=TwoWay}"
+                  DisplayMemberPath="GetWeekDay"
+                      SelectedIndex="0"
+                      Margin="10,0"/>
+
+            <Label Grid.Row="3" Content="Week" Margin="10 10 10 0"/>
+            <ComboBox Grid.Row="4" ItemsSource="{Binding Subjects}"
+                  SelectedItem="{Binding SelectedSubject, Mode=TwoWay}"
+                  DisplayMemberPath="Week"
+                      SelectedIndex="0"
+                      Margin="10 0 10 10"/>
+            <Label Grid.Row="5" Content=""/>
+            <Label Grid.Row="6" Content=""/>
+            <Button Grid.Row="7" Margin="10 0 10 10" Content="Add Day" />
+            <Button Grid.Row="8" Margin="10 0 10 10" Content="Remove Day" />
+            <Button Grid.Row="9" Margin="10 0 10 10" Content="Add Week" />
+            <Button Grid.Row="10" Margin="10 0 10 10" Content="Remove Week" />
+
+            <TextBlock Text="{Binding SelectedSubject.SubjectName}" 
+                       Margin="220,15,-575,0" Grid.RowSpan="4"/>
         </Grid>
     </Grid>
 </Window>

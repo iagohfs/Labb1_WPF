@@ -1,4 +1,5 @@
 ﻿using Labb1.Model;
+using Labb1_Wpf.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,10 @@ namespace Labb1.UI.Data
     {
         public IEnumerable<Subject> GetAll()
         {
-            //lägg till databas
-            yield return new Subject { Id = 43, SubjectName = "Kursstart" };
-            yield return new Subject { Id = 43, SubjectName = "WPF och labhandledning" };
-            yield return new Subject { Id = 44, SubjectName = "Umbraco-certifiering" };
-            yield return new Subject { Id = 44, SubjectName = "Umbraco-certifiering" };
-            yield return new Subject { Id = 44, SubjectName = "Entity Framework återblick och fördjupning" };
-        }
+            using (var ctx = new SubjectOrganizerDbContext())
+            {
+                return ctx.Subjects.AsNoTracking().ToList();
+            }
+        }        
     }
 }
