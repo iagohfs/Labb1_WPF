@@ -5,6 +5,6 @@ namespace Labb1.UI.Data
 {
     public interface ILabb1DataService
     {
-        IEnumerable<Subject> GetAll();
+        IEnumerable<WeekNr> GetAll();
     }
 }

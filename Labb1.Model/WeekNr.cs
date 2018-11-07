@@ -10,11 +10,9 @@ namespace Labb1.Model
     {
         public int Id { get; set; }
 
-        public int WeekNumber { get; set; }
-        
-        public WeekNr(int UserInput)
-        {
-            WeekNumber = UserInput;
-        }
+        public int WeekNumber { get; set; }        
+
+        public WeekDay WeekDay { get; set; }
+
     }
 }

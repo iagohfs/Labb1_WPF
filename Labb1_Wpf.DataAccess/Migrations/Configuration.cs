@@ -15,15 +15,15 @@ namespace Labb1_Wpf.DataAccess.Migrations
 
         protected override void Seed(Labb1_Wpf.DataAccess.SubjectOrganizerDbContext context)
         {
-            context.Subjects.AddOrUpdate(
-                new Subject { SubjectInfo = "Kursstart", WeekNumber = new WeekNr(43), WeekDay = new WeekDay("Thursday") },
-                new Subject { SubjectInfo = "WPF och labhandledning", WeekNumber = new WeekNr(43), WeekDay = new WeekDay("Friday") },
-                new Subject { SubjectInfo = "Umbraco-certifiering", WeekNumber = new WeekNr(44), WeekDay = new WeekDay("Tuesday") },
-                new Subject { SubjectInfo = "Umbraco-certifiering", WeekNumber = new WeekNr(44), WeekDay = new WeekDay("Wednesday") },
-                new Subject { SubjectInfo = "Entity Framework återblick och fördjupning", WeekNumber = new WeekNr(44), WeekDay = new WeekDay("Thursday") },
-                new Subject { SubjectInfo = "intro till WCF Labhandledning och redovisningar", WeekNumber = new WeekNr(45), WeekDay = new WeekDay("Tuesday") },
-                new Subject { SubjectInfo = "WCF endpoints och konfiguration\nSista dagen för redovisningar av lab 1.", WeekNumber = new WeekNr(45), WeekDay = new WeekDay("Thursday") },
-                new Subject { SubjectInfo = "WCF fördjupning", WeekNumber = new WeekNr(45), WeekDay = new WeekDay("Friday") }
+            context.WeekNumbers.AddOrUpdate(
+                new WeekNr { WeekNumber = 43, WeekDay = new WeekDay { WeekDayInput = "Thursday", Subject = new Subject("Kursstart") } },
+                new WeekNr { WeekNumber = 43, WeekDay = new WeekDay { WeekDayInput = "Friday", Subject = new Subject("WPF och labhandledning") } },
+                new WeekNr { WeekNumber = 44, WeekDay = new WeekDay { WeekDayInput = "Tuesday", Subject = new Subject("Umbraco-certifiering") } },
+                new WeekNr { WeekNumber = 44, WeekDay = new WeekDay { WeekDayInput = "Wednesday", Subject = new Subject("Umbraco-certifiering") } },
+                new WeekNr { WeekNumber = 44, WeekDay = new WeekDay { WeekDayInput = "Thursday", Subject = new Subject("Entity Framework återblick och fördjupning") } },
+                new WeekNr { WeekNumber = 45, WeekDay = new WeekDay { WeekDayInput = "Tuesday", Subject = new Subject("intro till WCF Labhandledning och redovisninga") } },
+                new WeekNr { WeekNumber = 45, WeekDay = new WeekDay { WeekDayInput = "Thursday", Subject = new Subject("WCF endpoints och konfiguration\nSista dagen för redovisningar av lab 1.") } },
+                new WeekNr { WeekNumber = 45, WeekDay = new WeekDay { WeekDayInput = "Friday", Subject = new Subject("WCF fördjupning") } }
                 );
         }
     }

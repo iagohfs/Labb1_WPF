@@ -11,11 +11,8 @@ namespace Labb1.Model
         public int Id { get; set; }
 
         public string WeekDayInput { get; set; }
-                
-        public WeekDay(string UserInput)
-        {
-            WeekDayInput = UserInput;
-        }
 
+        public Subject Subject { get; set; }
+        
     }
 }

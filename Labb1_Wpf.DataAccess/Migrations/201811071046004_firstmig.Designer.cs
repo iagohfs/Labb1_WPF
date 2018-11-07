@@ -7,13 +7,13 @@ namespace Labb1_Wpf.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class firstupdate1 : IMigrationMetadata
+    public sealed partial class firstmig : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(firstupdate1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(firstmig));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811060937555_firstupdate1"; }
+            get { return "201811071046004_firstmig"; }
         }
         
         string IMigrationMetadata.Source

@@ -12,9 +12,12 @@ namespace Labb1.Model
 
         public string SubjectInfo { get; set; }
 
-        public WeekNr WeekNumber { get; set; }
+        public Subject(string subjectInput)
+        {
+            SubjectInfo = subjectInput;
+        }
 
-        public WeekDay WeekDay { get; set; }
+        public Subject() { }
 
     }
 }
