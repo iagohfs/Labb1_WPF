@@ -36,7 +36,7 @@
             <Label Content="Day" Margin="10 0"/>
             <ComboBox Grid.Row="2" ItemsSource="{Binding Subjects}"
                   SelectedItem="{Binding SelectedSubject, Mode=TwoWay}"
-                  DisplayMemberPath="GetWeekDay"
+                  DisplayMemberPath="WeekDay"
                       SelectedIndex="0"
                       Margin="10,0"/>
 
@@ -53,8 +53,8 @@
             <Button Grid.Row="9" Margin="10 0 10 10" Content="Add Week" />
             <Button Grid.Row="10" Margin="10 0 10 10" Content="Remove Week" />
 
-            <TextBlock Text="{Binding SelectedSubject.SubjectName}" 
-                       Margin="220,15,-575,0" Grid.RowSpan="4"/>
+            <TextBox Text="{Binding SelectedSubject.SubjectInfo}" 
+                       Margin="220,15,-575,0" Grid.RowSpan="4" TextChanged="TextBox_TextChanged"/>
         </Grid>
     </Grid>
 </Window>

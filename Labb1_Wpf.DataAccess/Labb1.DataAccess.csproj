@@ -52,6 +52,18 @@
     <Compile Include="Migrations\201811051509219_firstupdate.Designer.cs">
       <DependentUpon>201811051509219_firstupdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811060937555_firstupdate1.cs" />
+    <Compile Include="Migrations\201811060937555_firstupdate1.Designer.cs">
+      <DependentUpon>201811060937555_firstupdate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811061006488_firstupdate2.cs" />
+    <Compile Include="Migrations\201811061006488_firstupdate2.Designer.cs">
+      <DependentUpon>201811061006488_firstupdate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811061010596_firstupdate3.cs" />
+    <Compile Include="Migrations\201811061010596_firstupdate3.Designer.cs">
+      <DependentUpon>201811061010596_firstupdate3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubjectOrganizerDbContext.cs" />
@@ -69,6 +81,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811051509219_firstupdate.resx">
       <DependentUpon>201811051509219_firstupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811060937555_firstupdate1.resx">
+      <DependentUpon>201811060937555_firstupdate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811061006488_firstupdate2.resx">
+      <DependentUpon>201811061006488_firstupdate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811061010596_firstupdate3.resx">
+      <DependentUpon>201811061010596_firstupdate3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

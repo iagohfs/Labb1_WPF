@@ -12,9 +12,9 @@ namespace Labb1_Wpf.DataAccess.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        SubjectName = c.String(),
+                        SubjectInfo = c.String(),
                         Week = c.Int(nullable: false),
-                        WeekDayNr = c.Int(nullable: false),
+                        WeekDay = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             

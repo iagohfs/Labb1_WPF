@@ -12,6 +12,8 @@ namespace Labb1_Wpf.DataAccess
         }
 
         public DbSet<Subject> Subjects { get; set; }
+        public DbSet<WeekDay> WeekDays { get; set; }
+        public DbSet<WeekNr> WeekNumbers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

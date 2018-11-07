@@ -13,6 +13,10 @@ namespace Labb1.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        // Todo: adicionar e remover rows na database
+        // poder escrever o conteudo
+        // poder editar o que esta escrito no subjectinfo
+
         public ObservableCollection<Subject> Subjects { get; set; }
 
         private ILabb1DataService _labb1DataService;
@@ -33,27 +37,7 @@ namespace Labb1.UI.ViewModel
             {
                 Subjects.Add(subject);
             }
-        }
-
-        public string WeekDay(int dayNr)
-        {
-            switch (dayNr)
-            {
-                case 1:
-                    return "Monday";
-                case 2:
-                    return "Tuesday";
-                case 3:
-                    return "Wednesday";
-                case 4:
-                    return "Thursday";
-                case 5:
-                    return "Friday";
-
-                default:
-                    return "Empty";
-            }
-        }
+        }        
 
         public Subject SelectedSubject
         {
