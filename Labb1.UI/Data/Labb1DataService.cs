@@ -15,8 +15,14 @@ namespace Labb1.UI.Data
         {
             using (var ctx = new SubjectOrganizerDbContext())
             {
+                //ctx.Entry<WeekNr>().Reference(w => w.WeekDay.Subject).Load();
                 return ctx.WeekNumbers.Include(d => d.WeekDay).Include(d => d.WeekDay.Subject).AsNoTracking().ToList();
             }
+        }
+
+        public SubjectOrganizerDbContext GetDbContext()
+        {
+            return new SubjectOrganizerDbContext();
         }
     }
 }

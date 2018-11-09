@@ -18,6 +18,5 @@ namespace Labb1.Model
         }
 
         public Subject() { }
-
     }
 }

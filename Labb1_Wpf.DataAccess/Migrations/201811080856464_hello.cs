@@ -3,7 +3,7 @@ namespace Labb1_Wpf.DataAccess.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class firstmig : DbMigration
+    public partial class hello : DbMigration
     {
         public override void Up()
         {

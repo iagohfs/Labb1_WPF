@@ -3,7 +3,11 @@ using Labb1.UI.Data;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Labb1.UI.ViewModel;
+using Labb1_Wpf.DataAccess;
+using System.Data.Entity;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System;
 
 namespace Labb1.UI.ViewModel
 {
@@ -19,11 +23,129 @@ namespace Labb1.UI.ViewModel
         public ObservableCollection<WeekNr> WeekListCollection { get; set; }
 
         private ILabb1DataService _labb1DataService;
+        private SubjectOrganizerDbContext SubjectOrganizerDbContext;
+
         private Subject _selectedSubject;
         private WeekDay _selectedWeekDay;
         private WeekNr _selectedWeekNr;
+        private IEnumerable<WeekNr> weeknrs;
 
-        private System.Windows.Controls.ComboBox DayComboBox;
+        internal string CurrentText(string PrintedText)
+        {
+            string toreturn = "";
+
+            for (int i = 0; i < SubjectsCollection.Count; i++)
+            {
+                if (SubjectsCollection[i].SubjectInfo == PrintedText)
+                {
+                    toreturn = PrintedText;
+                }
+            }
+
+            return toreturn;
+        }
+
+        internal void SaveChangedText(string text, int selectedIndex)
+        {
+            foreach (var WeekDayItem in SubjectOrganizerDbContext.WeekDays.Include(w => w.Subject).Where(w => w.WeekDayInput == SelectedWeekDay.WeekDayInput))
+            {
+                if (WeekDayItem.WeekDayInput == WeekDaysCollection.SingleOrDefault(w => w.WeekDayInput == _selectedWeekDay.WeekDayInput).WeekDayInput)
+                    WeekDayItem.Subject.SubjectInfo = text;
+
+                CloseOpenSaveCloseConnection();
+                break;
+            }
+        }
+
+        internal void AddNewDay(string text)
+        {
+            bool doesitmatch = false;
+            foreach (var item in MainCollection)
+            {
+                if (item.WeekNumber == _selectedWeekNr.WeekNumber && item.WeekDay.WeekDayInput == text)
+                {
+                    doesitmatch = true;
+                }
+            }
+
+            if (!doesitmatch)
+            {
+                WeekNr WeekNr = new WeekNr
+                {
+                    WeekNumber = SelectedWeekNr.WeekNumber,
+                    WeekDay = new WeekDay
+                    {
+                        WeekDayInput = text,
+                        Subject = new Subject
+                        { SubjectInfo = "Write an Activity here" }
+                    }
+                };
+
+                // Updates database
+                SubjectOrganizerDbContext.WeekNumbers.Add(WeekNr);
+
+                // Updates local collections
+                AddItemToMainCollection(WeekNr);
+
+                // IMPORTANT to be last
+                CloseOpenSaveCloseConnection();
+            }
+        }
+
+        internal void RemoveSelectedDay()
+        {
+            WeekNr TempweekNr = new WeekNr
+            {
+                WeekNumber = SelectedWeekNr.WeekNumber,
+                WeekDay = new WeekDay
+                {
+                    WeekDayInput = SelectedWeekDay.WeekDayInput,
+                    Subject = new Subject { SubjectInfo = SelectedWeekDay.Subject.SubjectInfo }
+                }
+            };
+
+            var itemInDatabase = SubjectOrganizerDbContext.WeekNumbers.Include(w => w.WeekDay).Include(wd => wd.WeekDay.Subject).FirstOrDefault(
+                i => i.WeekNumber == TempweekNr.WeekNumber
+                && i.WeekDay.WeekDayInput == TempweekNr.WeekDay.WeekDayInput
+                && i.WeekDay.Subject.SubjectInfo == TempweekNr.WeekDay.Subject.SubjectInfo);
+
+            var itemInLocalList = MainCollection.FirstOrDefault(
+                i => i.WeekNumber == TempweekNr.WeekNumber
+                && i.WeekDay.WeekDayInput == TempweekNr.WeekDay.WeekDayInput
+                && i.WeekDay.Subject.SubjectInfo == TempweekNr.WeekDay.Subject.SubjectInfo);
+
+            if (itemInLocalList != null && itemInDatabase != null)
+            {
+                SubjectOrganizerDbContext.WeekNumbers.Remove(itemInDatabase);
+                CloseOpenSaveCloseConnection();
+                MainCollection.Remove(itemInLocalList);
+
+                UpdateWeekDaysCollection(MainCollection);
+            }
+            else
+                throw new Exception("Was not able to find the object in the list or database");
+        }
+
+        private void AddItemToMainCollection(WeekNr weekNr)
+        {
+            MainCollection.Add(weekNr);
+            UpdateWeekDaysCollection(MainCollection);
+        }
+
+        private void UpdateWeekDaysCollection(ObservableCollection<WeekNr> mainCollection)
+        {
+            WeekDaysCollection.Clear();
+            CopyWeeksFromMainListAndRemoveDuplicates(mainCollection);
+        }
+
+        private void CloseOpenSaveCloseConnection()
+        {
+            SubjectOrganizerDbContext.Database.Connection.Close();
+            SubjectOrganizerDbContext.Database.Connection.Open();
+            SubjectOrganizerDbContext.SaveChanges();
+            SubjectOrganizerDbContext.Database.Connection.Close();
+        }
+
 
         public MainViewModel(ILabb1DataService labb1DataService)
         {
@@ -32,24 +154,29 @@ namespace Labb1.UI.ViewModel
             WeekDaysCollection = new ObservableCollection<WeekDay>();
             WeekListCollection = new ObservableCollection<WeekNr>();
 
+            SubjectOrganizerDbContext = new SubjectOrganizerDbContext();
+
             _labb1DataService = labb1DataService;
         }
 
         public void Load()
         {
-            var weeknrs = _labb1DataService.GetAll();
-
-            MainCollection.Clear();
-            SubjectsCollection.Clear();
-            WeekDaysCollection.Clear();
-
-            foreach (var weekcontent in weeknrs)
+            if (MainCollection.Count == 0)
             {
-                MainCollection.Add(weekcontent);
-                SubjectsCollection.Add(weekcontent.WeekDay.Subject);
+                weeknrs = _labb1DataService.GetAll();
+
+                MainCollection.Clear();
+                //SubjectsCollection.Clear();
+                WeekDaysCollection.Clear();
+
+                foreach (var weekcontent in weeknrs)
+                {
+                    MainCollection.Add(weekcontent);
+                    //SubjectsCollection.Add(weekcontent.WeekDay.Subject);
+                }
             }
 
-            CopyWeeksFromMainListAndRemoveDuplicates(weeknrs);
+            CopyWeeksFromMainListAndRemoveDuplicates(MainCollection);
         }
 
         private void CopyWeeksFromMainListAndRemoveDuplicates(IEnumerable<WeekNr> weekNrs)
@@ -70,6 +197,8 @@ namespace Labb1.UI.ViewModel
                 }
                 obj = null;
             }
+
+            DaysToDisplay();
         }
 
         private void DaysToDisplay()
@@ -85,21 +214,6 @@ namespace Labb1.UI.ViewModel
                     WeekDaysCollection.Add(item.WeekDay);
                 }
             }
-
-            //for (int i = 0; i < MainCollection.Count; i++)
-            //{
-            //    var obj = WeekDaysCollection.SingleOrDefault(s => s. == MainCollection[i].WeekNumber);
-
-            //    if (!WeekDaysCollection.Any())
-            //    {
-            //        WeekDaysCollection.Add(MainCollection[i]);
-            //    }
-            //    else if (obj == null)
-            //    {
-            //        WeekDaysCollection.Add(MainCollection[i]);
-            //    }
-            //    obj = null;
-            //}
         }
 
         #region Props
@@ -120,7 +234,6 @@ namespace Labb1.UI.ViewModel
             set
             {
                 _selectedWeekDay = value;
-
                 OnPropertyChanged();
             }
         }
